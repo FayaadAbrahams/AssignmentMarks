@@ -1,54 +1,52 @@
-import java.util.Scanner;
-
 public class ConsoleInterface {
 
-    public void fetchUserInput() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Welcome to the Marking Application!");
-        System.out.println("=====================================");
-        System.out.println("Please input a 1st Term Mark:");
-        double mark1 = sc.nextDouble();
-        System.out.println("Please input a 2nd Term Mark:");
-        double mark2 = sc.nextDouble();
-        System.out.println("Please input a 3rd Term Mark:");
-        double mark3 = sc.nextDouble();
-        System.out.println("Please input a 4th Term Mark:");
-        double mark4 = sc.nextDouble();
-        sc.close();
-        addToLinkedList(mark1, mark2, mark3, mark4);
-    }
+    public void initalizeList() {
+        // Create Student objects
+        Student st1 = new Student(1, "James", new double[] { 90.0, 90.40, 90.40, 90.40 });
+        Student st2 = new Student(2, "Daniel", new double[] { 66.4, 43.5, 34.3 });
+        Student st3 = new Student(3, "Lucky", new double[] { 39.0, 65.40, 44.40 });
+        Student st4 = new Student(4, "Samantha", new double[] { 39.0, 65.40, 44.40 });
 
-    public void addToLinkedList(double mark1, double mark2, double mark3, double mark4) {
-        // Add items to LinkedList
+        // Add to the Linked List
         LinkedList lk = new LinkedList();
-        lk.add(mark1);
-        lk.add(mark2);
-        lk.add(mark3);
-        lk.add(mark4);
+        lk.add(st1);
+        lk.add(st2);
+        lk.add(st3);
+        lk.add(st4);
 
         printTable(lk);
     }
 
     public void printTable(LinkedList datas) {
-        int termCount = 1;
-        // Printing out headings
-        System.out.printf("--------------------------------------%n");
-        System.out.printf("             YEAR PROGRESS      %n");
-        System.out.printf("--------------------------------------%n");
-        System.out.printf("| %-16s | %-5s |%n", "TERMS", "MARKS");
-        System.out.printf("--------------------------------------%n");
-
         // Looping through all items in the LinkedList
-        LinkedList.Node current = datas.getHead();
-        while (current != null) {
-            System.out.printf("| %-16s | %-5s |%n", "TERM " + termCount, current.getData());
-            current = current.getNext();
-            termCount++;
-        }
+        LinkedList.Node current = datas.head;
 
-        // Calculating the average for the year
-        System.out.printf("--------------------------------------%n");
-        System.out.printf("| %-16s | %-5s |%n", "AVERAGE", datas.calculateAverage());
+        while (current != null) {
+            // Printing out headings
+            System.out.println("");
+            System.out.printf("STUDENT NAME => %s     %n", current.student.getName());
+            System.out.printf("STUDENT ID NO. => %s     %n", current.student.getID());
+            System.out.printf("--------------------------------------%n");
+            System.out.printf("             YEAR PROGRESS      %n");
+            System.out.printf("--------------------------------------%n");
+            System.out.printf("| %-10s | %-5s |%n", "TERMS", "MARKS");
+            System.out.printf("--------------------------------------%n");
+
+            double[] studentMarks = current.student.getMarks();
+            double sum = 0.0;
+            int termCount = 1;
+            for (Double num : studentMarks) {
+                System.out.printf("| %-10s | %-5s |%n", "T" + termCount, num + "%");
+                sum += num;
+                termCount++;
+            }
+            double avg = sum / termCount;
+            // Calculating the student's average for the year
+            System.out.printf("--------------------------------------%n");
+            System.out.printf("| %-10s | %-5s |%n", "STUDENT AVERAGE =>", avg + "%");
+            System.out.printf("--------------------------------------%n");
+            current = current.next;
+        }
     }
 
 }

@@ -1,116 +1,67 @@
-
 public class LinkedList {
 
-    public class Node {
-        Double data;
+    public static class Node {
+        Student student;
         Node next;
 
-        public Node(double data) {
-            this.data = data;
+        public Node(Student student) {
+            this.student = student;
             this.next = null;
-        }
-
-        public double getData() {
-            return data;
-        }
-
-        public Node getNext() {
-            return next;
         }
     }
 
     Node head;
 
-    public void add(double data) {
-        Node node = new Node(data);
-        node.data = data;
-        node.next = null;
+    public void add(Student student) {
+        Node newNode = new Node(student);
 
         if (head == null) {
-            head = node;
+            head = newNode;
         } else {
-            Node n = head;
-            // Traverses until the next value is null (End)
-            while (n.next != null) {
-                n = n.next;
+            Node current = head;
+            while (current.next != null) {
+                current = current.next;
             }
-            n.next = node;
+            current.next = newNode;
         }
     }
 
-    public Node getHead() {
-        return head;
+    public void delete(int id) {
+        Node current = head;
+        Node prev = null;
+
+        while (current != null) {
+            if (current.student.getID() == id) {
+                if (prev == null) {
+                    head = current.next;
+                } else {
+                    prev.next = current.next;
+                }
+                return;
+            }
+            prev = current;
+            current = current.next;
+        }
     }
 
     public void display() {
-        Node node = head;
-        while (node != null) {
-            System.out.println(node.data);
-            node = node.next;
+        Node current = head;
+        while (current != null) {
+            System.out.println("STUDENT ID => " + current.student.getID());
+            System.out.println("STUDENT NAME => " + current.student.getName());
+            System.out.println();
+            current = current.next;
         }
     }
 
-    public int count() {
+    public int countNodes() {
         int count = 0;
-        Node node = head;
-        while (node != null) {
-            count += 1;
-            node = node.next;
+        Node current = head;
+        while (current != null) {
+            count++;
+            current = current.next;
         }
         return count;
     }
 
-    public Double calculateAverage() {
-        Double sum = 0.0;
-        int total = 0;
-        Node node = head;
-        while (node != null) {
-            total++;
-            sum += node.data;
-            node = node.next;
-        }
-        return sum / total;
-    }
-
-    public void addAtStart(double data) {
-        Node node = new Node(data);
-        node.data = data;
-        node.next = null;
-        node.next = head;
-        head = node;
-    }
-
-    public void addAtIndex(int index, double data) {
-        Node node = new Node(data);
-        node.data = data;
-        node.next = null;
-
-        if (index == 0) {
-            addAtStart(data);
-        } else {
-            Node n = head;
-
-            for (int i = 0; i < index - 1; i++) {
-                n = n.next;
-            }
-            node.next = n.next;
-            n.next = node;
-
-        }
-    }
-
-    public void deleteAt(int index) {
-        if (index == 0) {
-            head = head.next;
-        } else {
-            Node n = head;
-            Node n1 = null;
-            for (int i = 0; i < index - 1; i++) {
-                n = n.next;
-            }
-            n1 = n.next;
-            n.next = n1.next;
-            System.out.println("\nItem Deleted : " + n1.data);
-        }
-    }
 }
