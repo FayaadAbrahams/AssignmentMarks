@@ -1,24 +1,27 @@
-public class LinkedList {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-    public static class Node {
-        Student student;
-        Node next;
+public class LinkedList<T> {
 
-        public Node(Student student) {
-            this.student = student;
+    public static class Node<T> {
+        T data;
+        Node<T> next;
+
+        Node(T data) {
+            this.data = data;
             this.next = null;
         }
     }
 
-    Node head;
+    Node<T> head;
 
-    public void add(Student student) {
-        Node newNode = new Node(student);
+    public void add(T element) {
+        Node<T> newNode = new Node<>(element);
 
         if (head == null) {
             head = newNode;
         } else {
-            Node current = head;
+            Node<T> current = head;
             while (current.next != null) {
                 current = current.next;
             }
@@ -26,42 +29,54 @@ public class LinkedList {
         }
     }
 
-    public void delete(int id) {
-        Node current = head;
-        Node prev = null;
-
-        while (current != null) {
-            if (current.student.getID() == id) {
-                if (prev == null) {
-                    head = current.next;
-                } else {
-                    prev.next = current.next;
-                }
-                return;
-            }
+    public void delete(T element) {
+        Node<T> current = head;
+        Node<T> prev = null;
+        if (current != null && current.data.equals(element)) {
+            head = current.next; // Changed head
+            return;
+        }
+        while (current != null && !current.data.equals(element)) {
             prev = current;
             current = current.next;
         }
-    }
+        if (current == null)
+            return;
 
-    public void display() {
-        Node current = head;
-        while (current != null) {
-            System.out.println("STUDENT ID => " + current.student.getID());
-            System.out.println("STUDENT NAME => " + current.student.getName());
-            System.out.println();
-            current = current.next;
-        }
+        prev.next = current.next;
     }
 
     public int countNodes() {
         int count = 0;
-        Node current = head;
+        Node<T> current = head;
         while (current != null) {
             count++;
             current = current.next;
         }
         return count;
+    }
+
+    public Iterator<T> iterator() {
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator<T> {
+        private Node<T> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            T data = current.data;
+            current = current.next;
+            return data;
+        }
     }
 
 }
