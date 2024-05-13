@@ -1,29 +1,29 @@
 public class Student {
 
-    private int id;
+    private int Student_Id;
     private String name;
-    private double[] marks;
+    private String course;
 
-    public Student(int id, String name, double[] marks) {
-        this.id = id;
+    public Student(int id, String name, String course) {
+        this.Student_Id = id;
         this.name = name;
-        this.marks = marks;
+        this.course = course;
     }
 
-    public void setMarks(double[] marks) {
-        this.marks = marks;
+    public void setCourse(String course) {
+        this.course = course;
     }
 
-    public double[] getMarks() {
-        return marks;
+    public String getCourse() {
+        return course;
     }
 
     public void setID(int id) {
-        this.id = id;
+        this.Student_Id = id;
     }
 
     public int getID() {
-        return id;
+        return Student_Id;
     }
 
     public void setName(String name) {
@@ -37,10 +37,7 @@ public class Student {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("ID: ").append(id).append(", Name: ").append(name).append(", Marks: ");
-        for (Double mark : marks) {
-            sb.append(mark).append(" ");
-        }
+        sb.append("ID: ").append(Student_Id).append(", Name: ").append(name).append(", Course: ").append(course);
         return sb.toString();
     }
 }

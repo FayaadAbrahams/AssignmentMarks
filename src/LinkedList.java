@@ -1,8 +1,7 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedList<T> {
-
+public class LinkedList<T> implements Iterable<T> {
     public static class Node<T> {
         T data;
         Node<T> next;
@@ -15,7 +14,7 @@ public class LinkedList<T> {
 
     Node<T> head;
 
-    public void add(T element) {
+    public void append(T element) {
         Node<T> newNode = new Node<>(element);
 
         if (head == null) {
@@ -29,37 +28,41 @@ public class LinkedList<T> {
         }
     }
 
-    public void delete(T element) {
-        Node<T> current = head;
-        Node<T> prev = null;
-        if (current != null && current.data.equals(element)) {
-            head = current.next; // Changed head
-            return;
+    public void print() {
+        Iterator<T> iterator = iterator();
+        while (iterator.hasNext()) {
+            T element = iterator.next();
+            if (element instanceof Student) {
+                printStudentDetails((Student) element);
+            } else {
+                System.out.println("Error: Element is not an instance of Student");
+            }
         }
-        while (current != null && !current.data.equals(element)) {
-            prev = current;
-            current = current.next;
-        }
-        if (current == null)
-            return;
-
-        prev.next = current.next;
     }
 
-    public int countNodes() {
-        int count = 0;
-        Node<T> current = head;
-        while (current != null) {
-            count++;
-            current = current.next;
-        }
-        return count;
+    private void printStudentDetails(Student student) {
+        String line = "+-------------------------------+%n";
+        // Printing out headings
+        System.out.println("\n\n");
+        System.out.printf(line);
+        System.out.printf("| %-29s |%n", "STUDENT CARD");
+        System.out.printf(line);
+        System.out.printf("| %-15s | %-11s |%n", "STUDENT NAME", student.getName());
+        System.out.printf("| %-15s | %-11s |%n", "STUDENT ID", student.getID());
+        System.out.printf("| %-15s | %-11s |%n", "STUDENT COURSE", student.getCourse());
+        System.out.printf(line);
+
+    }
+
+    public boolean isEmpty() {
+        return head == null;
     }
 
     public Iterator<T> iterator() {
         return new LinkedListIterator();
     }
 
+    // Was changed due to project requirements
     private class LinkedListIterator implements Iterator<T> {
         private Node<T> current = head;
 
